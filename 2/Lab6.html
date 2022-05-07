@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>Задание 6</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script type="text/javascript">
+		var chicken = 0;
+		var egg = 0;
+		function quiz1(){
+			chicken = chicken+1;
+		}
+
+		function quiz2(){
+		egg = egg+1;
+}
+
+		function result(){
+		var all = chicken+egg;
+		var chickenPct = Math.round((chicken/all)*100);
+		var eggPct = 100-chickenPct;
+		$("#a").html("Количество проголосовавших равно "+all);
+		$("#c").html("За глухой звук проголосовало "+chickenPct+"%");
+		$("#e").html("За звонкий звук проголосовало "+eggPct+"%");
+}
+	</script>
+	<style>
+		label{
+			font: 16pt sans-serif;
+		}
+
+		.button {
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 4px 4px;
+    border-radius: 100%;
+}
+
+		.result{
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 100%;
+		}
+	</style>
+</head>
+<body align="center">
+	<form id="f">
+		<label>Какой арбуз брать? Который при постукивании издаёт...</label></br>
+		<input class="button" type="button" onclick="quiz1()" id="rad1" value="Глухой звук">
+		<input class="button" type="button" onclick="quiz2()" id="rad2" value="Звонки звук"></br></br>
+		<input class="result" type="button" id="rez" onclick="result()" value="Результаты">
+		<p id="a"></p>
+		<p id="c"></p>
+		<p id="e"></p>
+	</form>
+</body>
+</html>
