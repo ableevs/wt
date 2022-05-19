@@ -1,0 +1,136 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>Написать отзыв о сервисе</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="ie.css" /><![endif]-->
+  <script type="text/javascript" src="jquery.js"></script>
+</head>
+ <body> 
+<div id="wrapper">
+  <header class="head">
+        <img style="float: left;" wight="100px" hight="50px" src="data:image/png;base64,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">
+        <div align="center" style="float: right;width: 260px;margin: 20px 40px 20px 20px;">
+            <h1>Остaвить отзыв</h1><br><br>
+            <h1><a style="text-decoration: none;  color: black;border: 2px solid black; padding: 15px; border-radius: 5px" href="index.html">Перечень туров</a></h1>
+	</div>
+	</header>
+	<br /><br /><br /><br /><br /> <br /><br /><br /><br /><br /><br /><br />
+  <h2>Остaвить отзыв</h2>
+  <br />
+  <div id="content">
+
+      <div class="recent">
+
+        <div class="single">
+          <p>Оставьте отзыв</p>
+        </div>
+
+        <div id="comments">
+          <div id="respond">
+
+            <p>
+             Имя * <input type="text" name="author" id="author" value="" size="22" tabindex="1" />
+              <label for="author"></label>
+            </p>
+            
+            <p>
+            Отзыв*
+              <textarea name="comment" id="comment" cols="60" rows="10" tabindex="4"></textarea>
+            </p>
+            <p>
+            email*
+              <input type="text" name="email" id="email" value="" size="22" tabindex="1" />
+              <label for="email"></label>
+            </p>
+            <p>
+           <input id="datepub" type="hidden" value="2022-05-20">
+            </p>
+            <p>
+           <input id="imagesrc" type="hidden" value="https://cdn-icons-png.flaticon.com/512/53/53068.png">
+            </p>
+            <p>
+              <button id="confirm">Отправить</button>
+            </p>
+
+          </div>
+        </div>
+        <div id="comments">
+          <input id="msgid" type="hidden">
+        </div>
+      </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('#msgid').val(0);
+    /* $('#try').on('click',); */
+    load();
+
+    function load() {
+      $.ajax({
+        type: 'POST',
+        url: 'loadMessageData.php',
+        dataType: "json",
+        /*data:{tek:tek, kol:kol},*/
+        success: function (data) {
+          if (data.length > parseInt($('#msgid').val())) {
+            for (var i = parseInt($('#msgid').val()); i < data.length; i++) {
+              $('#comments').append('<div class="msg"><a href="#"><img src="'+data[i].imagesrc+
+						'" width="100" height="100"  /><strong>Имя:</strong> ' 
+              + data[i].name +'<br><br><strong>Отзыв:</strong>' + data[i].msg +
+                '<p><br>' + data[i].email + '<br>'+ data[i].datepub +'</p></div></div><hr>');
+            }
+            $('#msgid').val(data.length);
+          }
+        }
+      });
+    };
+
+    $('#confirm').on('click', function () {
+      var checker = true;
+      var name = $('#author').val();
+      var msg = $('#comment').val();
+      var email = $('#email').val();
+      var datepub = $('#datepub').val();
+      var imagesrc = $('#imagesrc').val();
+      if ($('#author').val() == '' || $('#author').val().length < 4) {
+        checker = false;
+      }
+      if ($('#comment').val() == '' || $('#comment').val().length < 5) {
+        checker = false;
+      }
+      if (checker == true) {
+        $.ajax({
+          type: 'POST',
+          url: 'saveMessage.php',
+          data: {
+            name: name,
+            msg: msg,
+            email: email,
+            imagesrc: imagesrc,
+            datepub: datepub
+          },
+          success: function () {
+            load()
+            $('#author').val('')
+            $('#comment').val('')
+            $('#email').val('')
+            $('#imagesrc').val('')
+            $('#datepub').val('')
+            alert("Отзыв добавлен!");
+          }
+
+        });
+      } else {
+        alert("Отзыв не отправлен, проверьте правильность ввода полей!");
+      }
+    });
+  });
+</script>
