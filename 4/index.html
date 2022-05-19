@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="us">
+<head>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="jquery-ui.css" rel="stylesheet">
+	<title>Перечень туров по разным городам России</title>
+		
+	<style>
+	body{
+		font-family: "Trebuchet MS", sans-serif;
+		margin: 50px;
+    	background: #FAFAFA;
+	    
+	}
+	mark {
+    background-color: red;
+    color: white;
+}
+	.demoHeaders {
+		margin-top: 2em;
+	}
+	#dialog-link {
+		padding: .4em 1em .4em 20px;
+		text-decoration: none;
+		position: relative;
+	}
+	#dialog-link span.ui-icon {
+		margin: 0 5px 0 0;
+		position: absolute;
+		left: .2em;
+		top: 50%;
+		margin-top: -8px;
+	}
+	#modal_form {
+	width: 300px; 
+	height: 300px; /* Рaзмеры дoлжны быть фиксирoвaны */
+	border-radius: 5px;
+	border: 3px #000 solid;
+	background: #fff;
+	position: fixed; /* чтoбы oкнo былo в видимoй зoне в любoм месте */
+	top: 45%; /* oтступaем сверху 45%, oстaльные 5% пoдвинет скрипт */
+	left: 50%; /* пoлoвинa экрaнa слевa */
+	margin-top: -150px;
+	margin-left: -150px; /* тут вся мaгия центрoвки css, oтступaем влевo и вверх минус пoлoвину ширины и высoты сooтветственнo =) */
+	display: none; /* в oбычнoм сoстoянии oкнa не дoлжнo быть */
+	opacity: 0; /* пoлнoстью прoзрaчнo для aнимирoвaния */
+	z-index: 5; /* oкнo дoлжнo быть нaибoлее бoльшем слoе */
+	padding: 20px 10px;
+}
+	#icons {
+		margin: 0;
+		padding: 0;
+	}
+	#icons li {
+		margin: 2px;
+		position: relative;
+		padding: 4px 0;
+		cursor: pointer;
+		float: left;
+		list-style: none;
+	}
+	#icons span.ui-icon {
+		float: left;
+		margin: 0 4px;
+	}
+	.fakewindowcontain .ui-widget-overlay {
+		position: absolute;
+	}
+	.ui-textfield {
+    font: inherit;
+    color: inherit;
+    background: none;
+    text-align: inherit;
+    outline: none;
+    cursor: text;	
+	}
+	
+	select {
+		width: 200px;
+	}
+	TD.leftcol {
+    width: 110px;
+    vertical-align: middle;
+    }
+    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+    fieldset { padding:0; border:0; margin-top:25px; }
+    h1 { font-size: 1.2em; margin: .6em 0; }
+    div#users-contain { width: 350px; margin: 20px 0; }
+    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+    .ui-dialog .ui-state-error { padding: .3em; }
+    .validateTips { border: 1px solid transparent; padding: 0.3em; }
+
+	
+	</style>
+</head>
+<body>
+	<header class="head">
+        <img style="float: left;" wight="100px" hight="50px" src="data:image/png;base64,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">
+        <div align="left" style="float: left;width: 260px;margin: 20px 40px 20px 20px;">
+            <h1>Перечень туров по разным городам России</h1><br><br>
+	    </div>
+	</header>
+  <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<div id="accordion">
+	<h3>Санкт-Петербург</h3>
+	<div>
+	<table width="100%" cellspacing="0" cellpadding="0">
+		<tr> 
+			<td class="leftcol"><img src="https://www.rossija-kurort.ru/assets/cache_image/28-01-2019/uveh2y-ekskursii-v-sankt-peterburge_320x350_528.jpg" width="200" height="200"></td>
+			<td class="leftcol" align="center"><h1>Экскурсионные туры в Санкт-Петербург</h1><br>Цены от: 1590 ₽<br><a href="">Официальный сайт бронирования.<a></td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+			<td class="leftcol" align="center"><button>Подробнее</button></td>
+	
+		</tr>
+		<tr></tr>
+		<tr></tr>
+		<tr> 
+			<td class="leftcol"  align="left"></td>
+			<td class="leftcol"  align="left"></td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+		</tr>
+		<tr>
+		<td class="leftcol" valign="middle"></td> 
+		<td valign="middle"></td>
+		<td valign="middle"></td>
+		<td valign="middle"></td>
+		<td valign="middle" align="center"><button id="buyutur1">Купить</button></td>
+		</tr>
+	</table>
+	<hr></hr>Каждому туристу, посетившему Санкт-Петербург, нужно обязательно посетить Петергоф. Что такое Петергоф? Это - город, который находится на берегу Финского залива и входит в состав Санкт-Петербурга. Дворцы, фонтаны, каскады, парки, которые размещены в Петергофе окунут вас во время императорской России и окутают романтикой тех времен.
+	</div>
+	<h3>Москва</h3>
+	<div>
+	<table width="100%" cellspacing="0" cellpadding="0">
+		<tr> 
+			<td class="leftcol"><img src="https://cdn2.tu-tu.ru/image/pagetree_node_data/1/055c4b01273eb986fead1a6db4c20e9f/" width="200" height="200"></td>
+			<td class="leftcol" align="center"><h1>Экскурсионные туры в Москву</h1><br>Цены от: 1900 ₽<br><a href="">Официальный сайт бронирования.<a></td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+			<td class="leftcol" align="center"><button>Подробнее</button></td>
+	
+		</tr>
+		<tr></tr>
+		<tr></tr>
+		<tr> 
+			<td class="leftcol"  align="left"></td>
+			<td class="leftcol"  align="left"></td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+		</tr>
+		<tr>
+		<td class="leftcol" valign="middle"></td> 
+		<td valign="middle"></td>
+		<td valign="middle"></td>
+		<td valign="middle"></td>
+		<td valign="middle" align="center"><button id="buyuegp1">Купить</button></td>
+		</tr>
+	</table>
+	<hr></hr>Каждому туристу, посетившему Москву, нужно обязательно посетить Москву. Что такое Москва? Это - город, который находится на берегу Финского залива и входит в состав Москвы. Дворцы, фонтаны, каскады, парки, которые размещены в Москва окунут вас во время императорской России и окутают романтикой тех времен.
+	</div>
+	<h3>Ижевск</h3>
+	<div><table width="100%" cellspacing="0" cellpadding="0">
+		<tr> 
+			<td class="leftcol"><img src="https://img-cdn.tinkoffjournal.ru/i/t8Gn-PHSkTxrMsukJEFizTDnvnEOzcpldRiPx8aALmk/w:1200/aHR0cHM6Ly9pbWct/Y2RuLnRpbmtvZmZq/b3VybmFsLnJ1Ly0v/bWFpbl9fX2F2dG9y/LW5hZGV6aGRhLWto/YXJpdG9ub3ZhX19f/X3NodXR0ZXJzdG9j/a18xMTkxNDE0ODY4/LndrdGZzcy5qcGc" width="200" height="200"></td>
+			<td class="leftcol"  align="center"><h1>Экскурсионные туры в Ижевск</h1><br>Цены от: 1 000 000 ₽<br><a href="">Официальный сайт бронирования.<a></td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+			<td class="leftcol" align="center"><button>Подробнее</button></td>
+	
+		</tr>
+		<tr></tr>
+		<tr></tr>
+		<tr> 
+			<td class="leftcol"  align="left"></td>
+			<td class="leftcol"  align="left"></td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+		</tr>
+		<tr>
+		<td class="leftcol" valign="middle"></td> 
+		<td valign="middle"></td>
+		<td valign="middle"></td>
+		<td valign="middle"></td>
+		<td valign="middle" align="center"><button id="buyudub">Купить</button></td>
+		</tr>
+	</table>
+	<hr></hr>Каждому туристу, посетившему Ижевск, нужно обязательно посетить Ижевск. Что такое Ижевск? Это - город, который находится на берегу Финского залива и входит в состав Ижевска. Дворцы, фонтаны, каскады, парки, которые размещены в Ижевск окунут вас во время императорской России и окутают романтикой тех времен.
+	</div>
+	
+</div>
+<div id="dialog-form">
+  <form>
+    <fieldset>
+		<h4>Ваше имя <input type="text" id="fio" style = "ui-textfield"> </br> </h4>
+		<h4>Номер телефона <input type="text" id="fio" style = "ui-textfield"> </br> </h4>
+		<h4>Количество билетов
+		<select name="minbeds" id="minbeds">
+			<option>1</option>
+			<option>2</option>
+			<option>3</option>
+			<option>4</option>
+		</select> </h4>
+		<h4><div id="slider"> </br> </h4>
+		<h4>Выбрать дату <input type="text" id="datepicker" style = "ui-textfield"></br> </h4>
+		<h4>Трансфер
+		<select name="town" id="town">
+			<option>Автобус</option>
+			<option>Поезд</option>
+			<option>Самолёт</option>
+		</select> </br> </h4>
+		<h4>Итого<input type="text" id = "result" style = "ui-textfield" readonly> </br> </h4>
+	</fieldset>
+  </form>
+</div>
+<div id="dialog-confirm" title="Оформить заявку?">
+    <fieldset>
+		<p>Проверьте данные</p>
+	</fieldset>
+</div>
+<div id="thankyou" title="Спасибо за заказ, мы с вами свяжемся!">
+    <fieldset>
+		<p>Спасибо!</p>
+	</fieldset>
+</div>
+<div id="becareful" title="Проверьте правильность данных">
+    <fieldset>
+		<p>Не правильно заполнены поля</p>
+	</fieldset>
+</div>
+<script src="external/jquery/jquery.js"></script>
+<script src="jquery-ui.js"></script>
+<script>
+var price;
+$( "#accordion" ).accordion({collapsible: true});
+
+$( "#buyutur1" ).button()
+		.click(function(event){
+			price = 1590;
+			$( "#result" ).val(1590);
+			$( "#tempname" ).val("Покупка путёвки");
+			$( "#dialog-form" ).dialog("option","title","Покупка путёвки");
+			$( "#dialog-form" ).dialog( "open" );
+		});
+
+$( "#buyuegp1" ).button()
+		.click(function(){
+			price = 1900;
+			$( "#result" ).val(1900);
+			$( "#dialog-form" ).dialog("option","title","Покупка путёвки");
+			$( "#dialog-form" ).dialog( "open" );
+        });
+        
+$( "#buyudub" ).button()
+		.click(function(){
+			price = 1000000;
+			$( "#result" ).val(1000000);
+			$( "#dialog-form" ).dialog("option","title","Покупка путёвки");
+			$( "#dialog-form" ).dialog( "open" );
+        });
+	$('#datepicker').datepicker({
+	dateFormat : "dd.mm.yy",
+	minDate: new Date($('#hiddendelivdate').val()),
+	monthNames : ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
+	dayNamesMin : ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],
+});
+	$( "#card" ).tooltip();
+	$( "#dialog-form" ).dialog({
+    autoOpen: false,
+    height: 500,
+    width: 650,
+    modal: true,
+    buttons: {
+        "Оформить": function() {
+			if ($('#fio').val() == '' || $('#datepicker').val() == '' || $('#autocomplete').val() == '' || $('#card').val() == ''){
+				$( "#becareful" ).dialog("open");
+			}
+			else {
+				$( "#dialog-confirm" ).dialog("open");
+			}
+        }
+		},
+		close : function(event, ui) {
+			$('#fio').val('');
+			$('#datepicker').val('');
+			$('#autocomplete').val('');
+			$('#card').val('');
+			slider.slider( "value", 0);
+			select[ 0 ].selectedIndex = 0;
+		}
+    });
+	$( "#town" ).selectmenu();
+	var select = $( "#minbeds" )
+	.on( "change", function() {
+      slider.slider( "value", this.selectedIndex + 1 );
+		$( "#result" ).val(((this.selectedIndex+1)*price));
+    });
+	var slider = $( "#slider" ).slider({
+		min: 1,
+		max: 4,
+		range: "min",
+		value: select[ 0 ].selectedIndex + 1,
+		  slide: function( event, ui ) {
+			select[ 0 ].selectedIndex = ui.value - 1;
+			$( "#result" ).val((ui.value*price));
+		  }
+	});
+	var availableTags = [
+		"ул. Пушкина, д. Колотушкина"
+	];
+	$( "#autocomplete" ).autocomplete({
+		source: availableTags
+	});
+		$( "#dialog-confirm" ).dialog({
+			autoOpen: false,
+			resizable: false,
+			height: "auto",
+			width: 400,
+			modal: true,
+			buttons: {
+					"Купить путёвки": function() {
+						$( this ).dialog( "close" );
+							$( "#dialog-form" ).dialog( "close");
+							$( "#thankyou" ).dialog("open");
+					},
+					"Нужно перепроверить": function() {
+						$( this ).dialog( "close" );
+						$( "#dialog-form" ).dialog( "close");
+					}
+				}
+			});
+			$( "#thankyou" ).dialog({
+			autoOpen: false,
+			resizable: false,
+			height: "auto",
+			width: 400,
+			modal: true,
+			buttons: {
+					"Закрыть": function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			});
+			$( "#becareful" ).dialog({
+			autoOpen: false,
+			resizable: false,
+			height: "auto",
+			width: 400,
+			modal: true,
+			buttons: {
+					"Закрыть": function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			});
+</script>
+</body>
+</html>
