@@ -15,7 +15,9 @@ body .avto{
 	table {
     -moz-border-radius:10px;
     -webkit-border-radius:10px;
-    border-radius:10px
+    border-radius:10px;
+    background: #fff;
+    opacity: 0.9;
 }
 .btn{
 
